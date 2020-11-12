@@ -72,14 +72,26 @@ void create_child_processes(std::string name)
     }
 }
 
+void print_usage(std::string name)
+{
+    std::cout << "Usage: " << name << " [parent | child]" << std::endl;
+}
+
 int main(int argc, char** argv)
 {
     std::srand(std::time(nullptr));
     //CreateProcessA("app.exe", "")
-    if (argc != 2)
+    std::string role;
+    if (argc == 1)
+        role = "parent";
+    else if (argc == 2)
+        role = std::string(argv[1]);
+    else
+    {
+        print_usage(argv[0]);
         return -1;
-
-    std::string role(argv[1]);
+    }
+    
 
     std::cout << "My role is " << role << std::endl;
 
@@ -88,7 +100,10 @@ int main(int argc, char** argv)
     else if ("child" == role)
         create_file();
     else
+    {
+        print_usage(argv[0]);
         return -1;
+    }
 
     return 0;
 }
